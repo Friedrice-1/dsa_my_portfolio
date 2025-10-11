@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate The Area of A Circle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Calculate The Area of A Circle</h1>
+    <nav>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/works">Works</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+    <form action="/areaOfcirle" method="post">
+        <label for="inputRadius">Enter the Radius:</label>
+        <input type="number" id="inputRadius" name="inputRadius">
+        <input type="submit" value="Calculate">
+    </form>
+
+    {% if result %}
+    <p>Area: {{ result }}</p>
+    {% endif %}
+</body>
+</html>
