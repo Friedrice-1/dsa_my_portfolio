@@ -62,5 +62,42 @@ def areaOfTriangle():
 def contact():
     return render_template('contact.html')
 
+def infix_to_postfix(expression):
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3}
+    stack = []
+    output = []
+
+    def is_operand(ch):
+        return ch.isalnum()
+
+    for ch in expression:
+        if ch == ' ':
+            continue
+        if is_operand(ch):
+            output.append(ch)
+        elif ch == '(':
+            stack.append(ch)
+        elif ch == ')':
+            while stack and stack[-1] != '(':
+                output.append(stack.pop())
+            stack.pop()
+        else:
+            while (stack and stack[-1] != '(' and
+                   precedence.get(ch, 0) <= precedence.get(stack[-1], 0)):
+                output.append(stack.pop())
+            stack.append(ch)
+    while stack:
+        output.append(stack.pop())
+    return ' '.join(output)
+
+@app.route('/stackPostFix', methods=['GET', 'POST'])
+def stackPostFix():
+    result = None
+    if request.method == 'POST':
+        infix_expr = request.form.get('inputString')
+        if infix_expr:
+            result = infix_to_postfix(infix_expr)
+    return render_template('stackPostFix.html', result=result)
+
 if __name__ == "__main__":
     app.run(debug=True)
